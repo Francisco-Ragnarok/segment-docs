@@ -259,45 +259,45 @@ The `DestinationPlugin` interface is commonly used for device-mode destinations.
 For example, if you want to implement a device-mode destination plugin for Amplitude, you can use this:
 
 ```swift
-internal struct AppsFlyerSettings: Codable {
-    let appsFlyerDevKey: String
+internal struct AmplitudeSetting: Codable {
+    let AmplitudeDevKey: String
     let appleAppID: String
     let trackAttributionData: Bool?
 }
 
 @objc
-class AppsFlyerDestination: UIResponder, DestinationPlugin, UserActivities, RemoteNotifications {
+class AmplitudeDestination: UIResponder, DestinationPlugin, UserActivities, RemoteNotifications {
 
     let timeline: Timeline = Timeline()
     let type: PluginType = .destination
     let name: String
     var analytics: Analytics?
 
-    internal var settings: AppsFlyerSettings? = nil
+    internal var settings: AmplitudeSettings? = nil
 
      required init(name: String) {
         self.name = name
-        analytics?.track(name: "AppsFlyer Loaded")
+        analytics?.track(name: "Amplitude Loaded")
     }
 
     public func update(settings: Settings) {
 
-        guard let settings: AppsFlyerSettings = settings.integrationSettings(name: "AppsFlyer") else {return}
+        guard let settings: AmplitudeSettings = settings.integrationSettings(name: "Amplitude") else {return}
         self.settings = settings
 
 
-        AppsFlyerLib.shared().appsFlyerDevKey = settings.appsFlyerDevKey
-        AppsFlyerLib.shared().appleAppID = settings.appleAppID
-        AppsFlyerLib.shared().isDebug = true
-        AppsFlyerLib.shared().deepLinkDelegate = self
+        AmplitudeLib.shared().AmplitudeDevKey = settings.AmplitudeDevKey
+        AmplitudeLib.shared().appleAppID = settings.appleAppID
+        AmplitudeLib.shared().isDebug = true
+        AmplitudeLib.shared().deepLinkDelegate = self
 
         // additional update logic
   }
 
 // ...
 
-analytics.add(plugin: AppsFlyerPlugin(name: "AppsFlyer"))
-analytics.track("AppsFlyer Event")
+analytics.add(plugin: AmplitudePlugin(name: "Amplitude"))
+analytics.track("Amplitude Event")
 ```
 
 ### Advanced concepts
